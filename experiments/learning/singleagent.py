@@ -78,7 +78,9 @@ def run(
 ):
 
     #### Save directory ########################################
-    filename = os.path.join(output_folder, 'save-'+env+'-'+algo+'-'+obs.value+'-'+act.value+'-'+datetime.now().strftime("%m.%d.%Y_%H.%M.%S"))
+    filename = os.path.join(output_folder, 'save-'+env+'-'+algo+ \
+                            '-'+obs.value+'-'+act.value+'-' + \
+                            datetime.now().strftime("%m.%d.%Y_%H.%M.%S"))
     if not os.path.exists(filename):
         os.makedirs(filename+'/')
 
@@ -109,7 +111,8 @@ def run(
 
     env_name = env+"-aviary-v0"
     sa_env_kwargs = dict(aggregate_phy_steps=shared_constants.AGGR_PHY_STEPS, obs=obs, act=act)
-    # train_env = gym.make(env_name, aggregate_phy_steps=shared_constants.AGGR_PHY_STEPS, obs=obs, act=act) # single environment instead of a vectorized one    
+    # single environment instead of a vectorized one
+    # train_env = gym.make(env_name, aggregate_phy_steps=shared_constants.AGGR_PHY_STEPS, obs=obs, act=act) 
     if env_name == "takeoff-aviary-v0":
         train_env = make_vec_env(TakeoffAviary,
                                  env_kwargs=sa_env_kwargs,
@@ -274,13 +277,22 @@ def run(
 if __name__ == "__main__":
     #### Define and parse (optional) arguments for the script ##
     parser = argparse.ArgumentParser(description='Single agent reinforcement learning experiments script')
-    parser.add_argument('--env',        default=DEFAULT_ENV,      type=str,             choices=['takeoff', 'hover', 'flythrugate', 'tune'], help='Task (default: hover)', metavar='')
-    parser.add_argument('--algo',       default=DEFAULT_ALGO,        type=str,             choices=['a2c', 'ppo', 'sac', 'td3', 'ddpg'],        help='RL agent (default: ppo)', metavar='')
-    parser.add_argument('--obs',        default=DEFAULT_OBS,        type=ObservationType,                                                      help='Observation space (default: kin)', metavar='')
-    parser.add_argument('--act',        default=DEFAULT_ACT,  type=ActionType,                                                           help='Action space (default: one_d_rpm)', metavar='')
-    parser.add_argument('--cpu',        default=DEFAULT_CPU,          type=int,                                                                  help='Number of training environments (default: 1)', metavar='')        
-    parser.add_argument('--steps',        default=DEFAULT_STEPS,          type=int,                                                                  help='Number of training time steps (default: 35000)', metavar='')        
-    parser.add_argument('--output_folder',     default=DEFAULT_OUTPUT_FOLDER, type=str,           help='Folder where to save logs (default: "results")', metavar='')
+    parser.add_argument('--env',        default=DEFAULT_ENV,      type=str,
+                        choices=['takeoff', 'hover', 'flythrugate', 'tune'],
+                        help='Task (default: hover)', metavar='')
+    parser.add_argument('--algo',       default=DEFAULT_ALGO,        type=str,
+                        choices=['a2c', 'ppo', 'sac', 'td3', 'ddpg'],
+                        help='RL agent (default: ppo)', metavar='')
+    parser.add_argument('--obs',        default=DEFAULT_OBS,        type=ObservationType,
+                        help='Observation space (default: kin)', metavar='')
+    parser.add_argument('--act',        default=DEFAULT_ACT,  type=ActionType,
+                        help='Action space (default: one_d_rpm)', metavar='')
+    parser.add_argument('--cpu',        default=DEFAULT_CPU,          type=int,
+                        help='Number of training environments (default: 1)', metavar='')        
+    parser.add_argument('--steps',        default=DEFAULT_STEPS,          type=int,
+                        help='Number of training time steps (default: 35000)', metavar='')        
+    parser.add_argument('--output_folder',     default=DEFAULT_OUTPUT_FOLDER, type=str,
+                        help='Folder where to save logs (default: "results")', metavar='')
     ARGS = parser.parse_args()
 
     run(**vars(ARGS))
