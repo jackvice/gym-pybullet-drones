@@ -109,7 +109,7 @@ def run(
     #### Uncomment to debug slurm scripts ######################
     # exit()
 
-    env_name = env+"-aviary-v0"
+    env_name = env + "-aviary-v0"
     sa_env_kwargs = dict(aggregate_phy_steps=shared_constants.AGGR_PHY_STEPS, obs=obs, act=act)
     # single environment instead of a vectorized one
     # train_env = gym.make(env_name, aggregate_phy_steps=shared_constants.AGGR_PHY_STEPS, obs=obs, act=act) 
